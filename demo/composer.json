@@ -1,0 +1,12 @@
+{
+  "name": "acmecorp/billing-api",
+  "require": {
+    "php": ">=8.1"
+  },
+  "scripts": {
+    "test": "phpunit",
+    "ci": "composer test",
+    "post-install-cmd": ["echo 'Installed billing-api dependencies'"],
+    "generate-invoices-2023": "php scripts/legacy-invoice-gen.php"
+  }
+}

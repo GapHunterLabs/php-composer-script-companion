@@ -1,0 +1,30 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>dev.gaphunter.phpcomposerscriptcompanion</id>
+    <name>PHP Composer Script Companion</name>
+    <vendor>Gap Hunter Labs</vendor>
+    <description><![CDATA[
+        <p>Gutter icon per <code>"scripts"</code> entry of an open
+        <code>composer.json</code>, showing whether it's used or an
+        orphan candidate -- checks the script's own composer.json
+        (calling another script), GitHub Actions/GitLab CI configs, and
+        README.md for a real <code>composer run-script &lt;name&gt;</code>
+        or <code>composer &lt;name&gt;</code> invocation.</p>
+        <p>Recognizes Composer's own documented script event names
+        (<code>pre-install-cmd</code>, <code>post-autoload-dump</code>,
+        etc.) as always-used, same as npm lifecycle scripts.</p>
+        <p><b>100% static PSI/text analysis, no Composer CLI
+        invocation.</b> Stated honestly: v0.1 checks GitHub Actions and
+        GitLab CI only (not Jenkinsfile/CircleCI/Azure Pipelines) -- a
+        real, documented gap, not a hidden one.</p>
+        <p>Free. No license nags, no telemetry, no network calls.</p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.json</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.lineMarkerProvider language="JSON"
+            implementationClass="dev.gaphunter.phpcomposerscriptcompanion.gutter.UnusedComposerScriptLineMarkerProvider"/>
+    </extensions>
+</idea-plugin>
