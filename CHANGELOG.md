@@ -12,8 +12,8 @@
   counted for the informational "used" icon, only real actionable
   ones), a one-time notification asks whether to rate the plugin on
   Marketplace, with a permanent "Don't ask again" option. Standard
-  mechanism used catalog-wide since 2026-08-24 (`CONSTITUTION.md`
-  §7.2), rolled out to this plugin now.
+  mechanism used catalog-wide since 2026-08-24, rolled out to this
+  plugin now.
 
 ## [0.1.0]
 
