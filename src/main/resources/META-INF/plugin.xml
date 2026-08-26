@@ -26,5 +26,6 @@
     <extensions defaultExtensionNs="com.intellij">
         <codeInsight.lineMarkerProvider language="JSON"
             implementationClass="dev.gaphunter.phpcomposerscriptcompanion.gutter.UnusedComposerScriptLineMarkerProvider"/>
+        <notificationGroup id="PHP Composer Script Companion" displayType="BALLOON"/>
     </extensions>
 </idea-plugin>

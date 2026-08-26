@@ -13,6 +13,7 @@ import dev.gaphunter.phpcomposerscriptcompanion.model.ComposerScript
 import dev.gaphunter.phpcomposerscriptcompanion.model.ScriptUsage
 import dev.gaphunter.phpcomposerscriptcompanion.model.UsageVerdict
 import dev.gaphunter.phpcomposerscriptcompanion.parse.ComposerJsonParser
+import dev.gaphunter.phpcomposerscriptcompanion.review.ReviewPrompt
 import dev.gaphunter.phpcomposerscriptcompanion.scan.CiFileLocator
 import dev.gaphunter.phpcomposerscriptcompanion.scan.UsageScanner
 import java.nio.charset.StandardCharsets
@@ -43,6 +44,15 @@ class UnusedComposerScriptLineMarkerProvider : LineMarkerProviderDescriptor(), D
             val nameLiteral = nameLiteralOf(element) ?: continue
             val usage = usageByOffset[nameLiteral.textRange.startOffset] ?: continue
             result.add(buildMarker(nameLiteral, usage))
+
+            // Only the orphaned verdict is a real, actionable finding --
+            // the "used" icon shows up on ordinary, healthy scripts too
+            // and would inflate the CTA counter on a normal composer.json.
+            if (usage.verdict == UsageVerdict.ORPHANED) {
+                val path = jsonFile.virtualFile?.path ?: continue
+                val lineNumber = jsonFile.viewProvider.document?.getLineNumber(nameLiteral.textRange.startOffset) ?: -1
+                ReviewPrompt.recordHit(jsonFile.project, "$path:$lineNumber")
+            }
         }
     }
 
