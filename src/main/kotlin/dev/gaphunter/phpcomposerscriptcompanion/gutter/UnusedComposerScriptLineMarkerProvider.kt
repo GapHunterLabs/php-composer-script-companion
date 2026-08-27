@@ -89,7 +89,7 @@ class UnusedComposerScriptLineMarkerProvider : LineMarkerProviderDescriptor(), D
         ""
     }
 
-    /** Leaf-anchored (`SDK_GOTCHAS.md` §20) -- same `firstChild` leaf-descent as `unused-npm-script-companion`. */
+    /** Leaf-anchored -- same `firstChild` leaf-descent as `unused-npm-script-companion`. */
     private fun buildMarker(nameLiteral: JsonStringLiteral, usage: ScriptUsage): LineMarkerInfo<PsiElement> {
         val leaf = nameLiteral.firstChild ?: nameLiteral
         val tooltip = tooltipFor(usage)
