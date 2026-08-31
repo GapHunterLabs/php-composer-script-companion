@@ -2,9 +2,9 @@
 
 Gutter icon per `"scripts"` entry of an open `composer.json`, showing
 whether it's used or an orphan candidate — checks the script's own
-composer.json (calling another script), GitHub Actions/GitLab CI
-configs, and README.md for a real `composer run-script <name>` or
-`composer <name>` invocation.
+composer.json (calling another script), GitHub Actions/GitLab CI/
+CircleCI configs, and README.md for a real `composer run-script <name>`
+or `composer <name>` invocation.
 
 ## Why it exists
 
@@ -25,7 +25,7 @@ actually called anywhere versus safe to delete.
 
 ## v0.1 scope — stated honestly, not exhaustively
 
-CI scope: GitHub Actions and GitLab CI only (not Jenkinsfile/CircleCI/
+CI scope: GitHub Actions, GitLab CI, and CircleCI (not Jenkinsfile/
 Azure Pipelines) — a real, documented gap, not a hidden one.
 
 ## Usage

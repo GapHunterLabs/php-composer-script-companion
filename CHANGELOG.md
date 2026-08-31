@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+## [0.2.0]
+
+### Added
+
+- CircleCI support (`.circleci/config.yml`) alongside the existing
+  GitHub Actions and GitLab CI scanning -- a script referenced only
+  there is now correctly recognized as used instead of a false
+  orphan-candidate.
+
 ## [0.1.1]
 
 ### Added
@@ -28,6 +37,7 @@
 - 100% static PSI/text analysis, no Composer CLI invocation, no
   network calls, no telemetry. Free.
 
-[Unreleased]: https://github.com/GapHunterLabs/php-composer-script-companion/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/php-composer-script-companion/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/GapHunterLabs/php-composer-script-companion/compare/0.1.1...0.2.0
 [0.1.1]: https://github.com/GapHunterLabs/php-composer-script-companion/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/GapHunterLabs/php-composer-script-companion/commits/0.1.0
