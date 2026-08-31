@@ -2,7 +2,7 @@ package dev.gaphunter.phpcomposerscriptcompanion.scan
 
 import com.intellij.openapi.vfs.VirtualFile
 
-/** Same v0.1 CI scope as `unused-npm-script-companion`'s `CiFileLocator`: GitHub Actions + GitLab CI only, stated honestly. */
+/** v0.1/v0.2 CI scope: GitHub Actions, GitLab CI, and CircleCI -- Jenkinsfile/Azure Pipelines remain a real, documented gap, not a hidden one. */
 object CiFileLocator {
 
     fun findCiFiles(composerJsonDir: VirtualFile): List<VirtualFile> {
@@ -20,6 +20,14 @@ object CiFileLocator {
         val gitlabCi = composerJsonDir.findChild(".gitlab-ci.yml")
         if (gitlabCi != null && !gitlabCi.isDirectory) {
             results.add(gitlabCi)
+        }
+
+        // CircleCI: a single fixed path, unlike GitHub Actions' whole
+        // directory of arbitrarily-named workflow files -- no wildcard
+        // scan needed.
+        val circleCi = composerJsonDir.findChild(".circleci")?.findChild("config.yml")
+        if (circleCi != null && !circleCi.isDirectory) {
+            results.add(circleCi)
         }
 
         return results
