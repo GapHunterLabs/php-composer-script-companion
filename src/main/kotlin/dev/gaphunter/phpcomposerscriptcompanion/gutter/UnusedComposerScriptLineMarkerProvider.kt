@@ -7,16 +7,12 @@ import com.intellij.json.psi.JsonProperty
 import com.intellij.json.psi.JsonStringLiteral
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.openapi.project.DumbAware
-import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiElement
-import dev.gaphunter.phpcomposerscriptcompanion.model.ComposerScript
 import dev.gaphunter.phpcomposerscriptcompanion.model.ScriptUsage
 import dev.gaphunter.phpcomposerscriptcompanion.model.UsageVerdict
 import dev.gaphunter.phpcomposerscriptcompanion.parse.ComposerJsonParser
 import dev.gaphunter.phpcomposerscriptcompanion.review.ReviewPrompt
-import dev.gaphunter.phpcomposerscriptcompanion.scan.CiFileLocator
-import dev.gaphunter.phpcomposerscriptcompanion.scan.UsageScanner
-import java.nio.charset.StandardCharsets
+import dev.gaphunter.phpcomposerscriptcompanion.scan.ComposerScriptAudit
 
 /**
  * Gutter icon per `"scripts"` entry of an open `composer.json`, showing
@@ -37,7 +33,7 @@ class UnusedComposerScriptLineMarkerProvider : LineMarkerProviderDescriptor(), D
         val scripts = ComposerJsonParser.parseScripts(jsonFile)
         if (scripts.isEmpty()) return
 
-        val usages = scanUsages(jsonFile, scripts)
+        val usages = ComposerScriptAudit.audit(scripts, jsonFile.virtualFile?.parent)
         val usageByOffset = usages.associateBy { it.script.nameLiteralStartOffset }
 
         for (element in elements) {
@@ -61,32 +57,6 @@ class UnusedComposerScriptLineMarkerProvider : LineMarkerProviderDescriptor(), D
         val property = literal.parent as? JsonProperty ?: return null
         if (property.nameElement !== literal) return null
         return literal
-    }
-
-    private fun scanUsages(jsonFile: JsonFile, scripts: List<ComposerScript>): List<ScriptUsage> {
-        val dir: VirtualFile? = jsonFile.virtualFile?.parent
-
-        val ciFiles: Map<String, String> = if (dir != null) {
-            CiFileLocator.findCiFiles(dir).associate { file -> relativeCiLabel(dir, file) to readTextSafely(file) }
-        } else {
-            emptyMap()
-        }
-
-        val readmeText = dir?.let { CiFileLocator.findReadme(it) }?.let { readTextSafely(it) }
-
-        return UsageScanner.scan(scripts, ciFiles, readmeText)
-    }
-
-    private fun relativeCiLabel(dir: VirtualFile, ciFile: VirtualFile): String {
-        val dirPath = dir.path
-        val filePath = ciFile.path
-        return if (filePath.startsWith(dirPath)) filePath.removePrefix(dirPath).trimStart('/', '\\') else ciFile.name
-    }
-
-    private fun readTextSafely(file: VirtualFile): String = try {
-        String(file.contentsToByteArray(), StandardCharsets.UTF_8)
-    } catch (_: Exception) {
-        ""
     }
 
     /** Leaf-anchored -- same `firstChild` leaf-descent as `unused-npm-script-companion`. */

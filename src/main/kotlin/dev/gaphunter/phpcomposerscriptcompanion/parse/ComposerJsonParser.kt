@@ -24,8 +24,23 @@ object ComposerJsonParser {
         val root = file.topLevelValue as? JsonObject ?: return emptyList()
         val scriptsProperty = root.findProperty("scripts") ?: return emptyList()
         val scriptsObject = scriptsProperty.value as? JsonObject ?: return emptyList()
+        val aliases = readAliases(root)
 
-        return scriptsObject.propertyList.mapNotNull { property -> toComposerScript(property) }
+        return scriptsObject.propertyList.mapNotNull { property ->
+            toComposerScript(property)?.let { it.copy(aliases = aliases[it.name].orEmpty()) }
+        }
+    }
+
+    /** `"scripts-aliases": {"phpstan": ["stan", "analyze"]}` (Composer 2.7+). */
+    private fun readAliases(root: JsonObject): Map<String, List<String>> {
+        val aliasesObject = root.findProperty("scripts-aliases")?.value as? JsonObject ?: return emptyMap()
+        return aliasesObject.propertyList.associate { property ->
+            property.name to when (val value = property.value) {
+                is JsonArray -> value.valueList.filterIsInstance<JsonStringLiteral>().map { it.value }
+                is JsonStringLiteral -> listOf(value.value)
+                else -> emptyList()
+            }
+        }
     }
 
     fun hasScriptsSection(file: JsonFile): Boolean {

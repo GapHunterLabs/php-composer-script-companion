@@ -1,0 +1,8 @@
+{
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            { "action": "composer hook:pre-commit" }
+        ]
+    }
+}
