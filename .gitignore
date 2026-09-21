@@ -4,6 +4,8 @@
 .intellijPlatform
 .kotlin
 bin
+# the demo project's own scripts folder, not build output
+!demo/project-sources/bin
 build
 node_modules
 *.iml
