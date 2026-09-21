@@ -1,0 +1,21 @@
+name: ci
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: composer install --no-progress
+      - run: composer test
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        task: [phpstan, smoke]
+    steps:
+      - run: composer install --no-progress
+      - run: composer ${{ matrix.task }}
+  style:
+    runs-on: ubuntu-latest
+    steps:
+      # not the 'fix' script: the tool itself
+      - run: vendor/bin/php-cs-fixer fix --dry-run

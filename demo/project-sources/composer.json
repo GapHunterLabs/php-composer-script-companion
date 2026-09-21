@@ -1,0 +1,22 @@
+{
+    "name": "acme/project-sources",
+    "description": "Each script here is used a different way (see README.md next to it); only 'legacy-import' and 'fix' are really unused.",
+    "scripts": {
+        "test": ["@lint", "@phpunit"],
+        "lint": "phpcs",
+        "phpunit": "phpunit",
+        "phpstan": "phpstan analyse",
+        "smoke": "php tests/smoke.php",
+        "release": "php bin/release.php",
+        "docs:build": "php bin/docs.php",
+        "db:seed": "php bin/seed.php",
+        "agent:check": "phpcs --report=summary",
+        "coverage": "phpunit --coverage-text",
+        "hook:pre-commit": "phpcs --cache",
+        "legacy-import": "php bin/import-2019.php",
+        "fix": "php-cs-fixer fix"
+    },
+    "scripts-aliases": {
+        "coverage": ["cov"]
+    }
+}

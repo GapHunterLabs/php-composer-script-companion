@@ -1,0 +1,2 @@
+release:
+	composer run release
