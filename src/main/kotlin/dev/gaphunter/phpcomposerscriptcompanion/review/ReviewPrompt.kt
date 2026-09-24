@@ -41,14 +41,8 @@ object ReviewPrompt {
 
     private const val NOTIFICATION_GROUP_ID = "PHP Composer Script Companion"
 
-    // TODO(post-first-publish): Marketplace only assigns a numeric plugin
-    // ID on the first manual submit (queued, see demo/README.md) -- until
-    // then this points at the vendor page so "Rate on Marketplace" still
-    // goes somewhere real instead of a 404. Update to
-    // https://plugins.jetbrains.com/plugin/<id>-php-composer-script-companion/reviews once the
-    // real ID is known (recorded in the same place as the other
-    // post-publish follow-ups).
-    private const val MARKETPLACE_URL = "https://plugins.jetbrains.com/vendor/gap-hunter-labs"
+    // Marketplace listing (real ID resolved after first publish).
+    private const val MARKETPLACE_URL = "https://plugins.jetbrains.com/plugin/33792-php-composer-script-companion/reviews"
 
     /**
      * Call this from the real detection code path once per distinct
