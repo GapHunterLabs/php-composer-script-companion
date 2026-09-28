@@ -7,6 +7,13 @@ another script reuses it (`@name`), or when a real invocation
 appears in the project's CI configs, build files, git hooks or
 contributor docs — see [What it reads](#what-it-reads).
 
+![PHP Composer Script Companion: See which composer.json scripts are still used, and which are orphans](docs/media/hero.gif)
+
+Each feature on its own:
+[Where each script is used](docs/media/01-used-scripts.gif) ·
+[Orphan candidates](docs/media/02-orphans.gif) ·
+[Always current](docs/media/03-live-update.gif)
+
 ## Why it exists
 
 Same real problem `unused-npm-script-companion` already solves for
